@@ -11,6 +11,7 @@ typedef struct datos{
 
 sig_atomic_t finish=0;
 
+//Funcion que gestiona la señal de "control + c"
 void bye(int sig_num){
    finish = 1;
    printf("\n\nBye bye!\n\n");
@@ -32,13 +33,18 @@ int main(int argc, char *argv[]) {
     TDatos x = {'x'};
     TDatos o = {'o'};
 
-    struct sigaction sa;
+    //Convence a los hilos que tienen que termninar
+    //con la señal de "contro + c"
+    struct sigaction sa; 
     sa.sa_handler = &bye;
     sigaction(SIGINT, &sa, NULL);
 
-    pthread_create(&hilo[0],NULL, &print, (void *) &x);
+    //Creas dos hilos
+    //(void *) --> convierte a un puntero a algo la estructura
+    pthread_create(&hilo[0],NULL, &print, (void *) &x); 
     pthread_create(&hilo[1],NULL, &print, (void *) &o);
 
+    //Espero a que el hilo termine
     for(int i=0; i<2; i++)
     	pthread_join(hilo[i], NULL);
 
