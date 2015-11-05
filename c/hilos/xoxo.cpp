@@ -9,7 +9,10 @@ typedef struct datos{
     char caracter;
 }TDatos;
 
-sig_atomic_t finish=0;
+//No se interrumpe cuando se esta 
+//escribiendo en la variable
+sig_atomic_t finish=0; 
+			
 
 //Funcion que gestiona la señal de "control + c"
 void bye(int sig_num){
